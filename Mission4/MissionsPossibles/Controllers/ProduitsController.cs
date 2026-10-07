@@ -47,18 +47,18 @@ namespace Mission.Controllers
         }
 
         // GET: Produits/Create
+        // GET: Produits/Create
+        // GET: Produits/Create
         public IActionResult Create()
         {
-         
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Titre");
             return View();
         }
 
         // POST: Produits/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Produit produit)
+        public async Task<IActionResult> Create([Bind("ProduitId,Description,DateCreation,PrixVente,CategorieId")] Produit produit)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Mission.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-           
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Titre", produit.CategorieId);
             return View(produit);
         }
 
